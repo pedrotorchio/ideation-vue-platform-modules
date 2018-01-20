@@ -1,3 +1,4 @@
+import Module from './Module';
 export default class Installer{
     constructor(){
         this.app = window.DIARY;
