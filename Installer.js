@@ -9,6 +9,7 @@ export default class Installer{
     }
     install(){
         this.beforeActions();
+        this.registerRoutes();
         this.registerStores();
         this.registerModule();
         this.dispatches();
@@ -19,6 +20,9 @@ export default class Installer{
         this.getStores().forEach(store=>{
             this.store.registerModule(store.name, store);
         });
+    }
+    registerRoutes(){
+        this.router.addRoutes(this.getRoutes());
     }
     registerModule(){
         const title = this.getTitle();
@@ -55,6 +59,9 @@ export default class Installer{
 
     // para implementar
     // this.getTitle é obrigatorio
+    getRoutes(){
+        return [];
+    }
     getStores(){
         return [];
     }
