@@ -1,6 +1,6 @@
 {
   "name": "keepup-modules",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Base classes for composing modules for keepup platform",
   "main": "index.js",
   "scripts": {
