@@ -38,15 +38,13 @@ export default class Installer{
             module.addWidget(widget);
         });
 
-        let uninstaller = new Uninstaller();
-            uninstaller.getTitle      = this.getTitle;
+        let uninstaller = new Uninstaller(module);
             uninstaller.getRoutes     = this.getRoutes;
             uninstaller.getStores     = this.getStores;
-            uninstaller.getTabs       = this.getTabs;
-            uninstaller.getWidgets    = this.getWidgets;
-            uninstaller.getDispatches = this.getDispatches;
+            uninstaller.beforeActions = this.uninstallBefore;
+            uninstaller.afterActions  = this.uninstallAfter;
 
-        module.uninstall = uninstaller.run;
+        module.uninstaller = uninstaller;
         
         return module;
     }
@@ -71,6 +69,8 @@ export default class Installer{
     }
     afterActions(){}
 
+    uninstallBefore(){}
+    uninstallAfter(){}
 
     // para implementar
     // this.getTitle é obrigatorio
