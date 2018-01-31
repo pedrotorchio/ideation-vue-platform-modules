@@ -7,6 +7,7 @@ export default class Module extends Base{
         this.sidetabs = [];
         this.widgets = [];
         this.routes = [];
+        this.uninstall = ()=>false;
     }
     addTab(tab){
         tab.module = this.uid;

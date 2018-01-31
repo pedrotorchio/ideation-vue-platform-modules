@@ -8,6 +8,7 @@ export default class Installer{
         this.install();
     }
     install(){
+        
         this.beforeActions();
         this.registerRoutes();
         this.registerStores();
@@ -24,7 +25,7 @@ export default class Installer{
     registerRoutes(){
         this.router.addRoutes(this.getRoutes());
     }
-    registerModule(){
+    mountModule(){
         const title = this.getTitle();
         let   module = new Module(title);
         
@@ -35,8 +36,20 @@ export default class Installer{
             module.addWidget(widget);
         });
 
-        const uid = module.uid;
-        
+        let uninstaller = new Uninstaller();
+            uninstaller.getTitle      = this.getTitle;
+            uninstaller.getRoutes     = this.getRoutes;
+            uninstaller.getStores     = this.getStores;
+            uninstaller.getTabs       = this.getTabs;
+            uninstaller.getWidgets    = this.getWidgets;
+            uninstaller.getDispatches = this.getDispatches;
+
+        module.uninstall = uninstaller.run;
+        console.log('installer', module);
+        return module;
+    }
+    registerModule(){
+        const module = this.mountModule();        
         this.store.commit('modules/add', module);
     }
     dispatches(){
