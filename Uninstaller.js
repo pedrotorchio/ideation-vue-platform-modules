@@ -1,11 +1,10 @@
-export default class Installer{
+export default class Uninstaller{
     constructor(){
         this.app = window.DIARY;
         this.store = this.app.$store;
         this.router = this.app.$router;
     }
     run(){
-        
         this.beforeActions();
         this.registerRoutes();
         this.registerStores();
@@ -19,9 +18,7 @@ export default class Installer{
             this.store.unregisterModule(store.name, store);
         });
     }
-    registerRoutes(){
-        
-    }
+    registerRoutes(){}
     mountModule(){
         const title = this.getTitle();
         let   module = new Module(title);
@@ -56,9 +53,11 @@ export default class Installer{
     }
     afterActions(){}
 
-
     // para implementar
     // this.getTitle é obrigatorio
+    getTitle(){
+        return '';
+    }
     getRoutes(){
         return [];
     }

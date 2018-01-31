@@ -1,4 +1,5 @@
 import Module from './Module';
+import Uninstaller from './Uninstaller';
 
 export default class Installer{
     constructor(){
@@ -46,7 +47,7 @@ export default class Installer{
             uninstaller.getDispatches = this.getDispatches;
 
         module.uninstall = uninstaller.run;
-        console.log('installer', module);
+        
         return module;
     }
     registerModule(){
