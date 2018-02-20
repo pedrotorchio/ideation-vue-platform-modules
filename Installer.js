@@ -50,7 +50,7 @@ export default class Installer{
     }
     registerModule(){
         const module = this.mountModule();        
-        this.store.commit('modules/add', module);
+        this.store.commit('apiModules/add', module);
     }
     dispatches(){
 
