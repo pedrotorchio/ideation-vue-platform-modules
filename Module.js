@@ -7,7 +7,7 @@ export default class Module extends Base{
         this.sidetabs = [];
         this.widgets = [];
         this.routes = [];
-        this.uninstall = ()=>false;
+        this.uninstaller = null;
     }
     addTab(tab){
         tab.module = this.uid;
@@ -35,5 +35,10 @@ export default class Module extends Base{
     }
     getWidgets(){
         return this.widgets;
+    }
+    uninstall() {
+        if (this.uninstaller) this.uninstaller.run();
+        else return false;
+        return true;
     }
 }
