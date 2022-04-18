@@ -2,8 +2,8 @@ import Module from './Module';
 import Uninstaller from './Uninstaller';
 
 export default class Installer{
-    constructor(){
-        this.app = window.DIARY;
+    constructor(vueAppInstance){
+        this.app = vueAppInstance;
         this.store = this.app.$store;
         this.router = this.app.$router;
         
@@ -18,7 +18,6 @@ export default class Installer{
         this.dispatches();
         this.afterActions();
     }
-    beforeActions(){}
     registerStores(){
         this.getStores().forEach(store=>{
             this.store.registerModule(store.name, store);
@@ -27,9 +26,9 @@ export default class Installer{
     registerRoutes(){
         this.router.addRoutes(this.getRoutes());
     }
-    mountModule(){
+    makeModule(){
         const title = this.getTitle();
-        let   module = new Module(title);
+        const module = new Module(title);
         
         this.getTabs().forEach(tab=>{ 
             module.addTab(tab);
@@ -37,19 +36,20 @@ export default class Installer{
         this.getWidgets().forEach(widget=>{
             module.addWidget(widget);
         });
-
-        let uninstaller = new Uninstaller(module);
-            uninstaller.getRoutes     = this.getRoutes;
-            uninstaller.getStores     = this.getStores;
-            uninstaller.beforeActions = this.uninstallBefore;
-            uninstaller.afterActions  = this.uninstallAfter;
-
-        module.uninstaller = uninstaller;
+        const uninstaller = new class extends Uninstaller {
+          beforeActions() {
+            this.uninstallBefore();
+          }
+          afterActions() {
+            this.uninstallAfter();
+          }
+        }(this.app, module);
+        module.setUninstaller(uninstaller);
         
         return module;
     }
     registerModule(){
-        const module = this.mountModule();        
+        const module = this.makeModule();        
         this.store.commit('apiModules/add', module);
     }
     dispatches(){
@@ -67,13 +67,17 @@ export default class Installer{
             this.store.dispatch(action, payload);
         });
     }
-    afterActions(){}
 
-    uninstallBefore(){}
-    uninstallAfter(){}
 
+    // NOTE: Methods below are like abstract methods which need to be implemented by whoever extends this class
+    // Only required method is getTitle
+ 
     // para implementar
     // this.getTitle é obrigatorio
+    beforeActions(){}
+    afterActions(){}
+    uninstallBefore(){}
+    uninstallAfter(){}
     getRoutes(){
         return [];
     }
