@@ -1,27 +1,26 @@
 export default class Uninstaller{
-    constructor(module){
+    constructor(vueAppInstance, module){
         this.module = module;
-        this.app = window.DIARY;
+        this.app = vueAppInstance;
         this.store = this.app.$store;
         this.router = this.app.$router;
     }
     run(){
-        console.log(this);
         this.beforeActions();
-        this.registerRoutes();
-        this.registerStores();
-        this.registerModule();
+        this.unregisterRoutes();
+        this.unregisterStores();
+        this.unregisterModule();
         this.afterActions();
     }
-    beforeActions(){}
-    registerStores(){
+    unregisterStores(){
         this.getStores().forEach(store=>{
             this.store.unregisterModule(store.name, store);
         });
     }
-    registerRoutes(){}
-    registerModule(){
+    unregisterRoutes(){}
+    unregisterModule(){
         this.store.commit('modules/remove', this.module);
     }
+    beforeActions(){}
     afterActions(){}
 }
