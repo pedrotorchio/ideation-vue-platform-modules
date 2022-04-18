@@ -27,6 +27,9 @@ export default class Module extends Base{
 
         return this;
     }
+    setUninstaller(uninstaller) {
+        this.uninstaller = uninstaller;
+    }
     getUid(){
         return this.uid;
     }
