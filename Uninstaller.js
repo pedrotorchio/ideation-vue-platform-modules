@@ -13,10 +13,11 @@ export default class Uninstaller{
         this.afterActions();
     }
     unregisterStores(){
-        this.getStores().forEach(store=>{
+        this.module.getStores().forEach(store=>{
             this.store.unregisterModule(store.name, store);
         });
     }
+    // this method below seems to be incomplete
     unregisterRoutes(){}
     unregisterModule(){
         this.store.commit('modules/remove', this.module);
